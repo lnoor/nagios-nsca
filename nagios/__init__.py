@@ -3,6 +3,8 @@
 Library for sending notifications to Nagios using 'send_nsca' command.
 """
 
+from __future__ import unicode_literals, print_function
+
 __all__ = (
     "send_ok", "send_warning", "send_warning", "send_critical",
 )
@@ -36,10 +38,10 @@ def send(message,
          service_status=OK):
     line = "%s\t%s\t%d\t%s\n" % (host_name, service_description, service_status, message)
     if DISABLED:
-        print line.decode("utf-8")
+        print(line)
         return False
     pipe = Popen((nsca, target_host), stdin=PIPE)
-    pipe.communicate(line)
+    pipe.communicate(line.encode("utf-8"))
     pipe.stdin.close()
     pipe.wait()
     return True
